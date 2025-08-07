@@ -1,15 +1,15 @@
 const { fetchWithResponse } = require("./fetcher.js");
 
 export const getUser = (query = undefined) => {
-  let url = "user";
+  let url = "users";
 
   if (query) {
     url += `?${query}`;
   }
 
-  return fetchWithResponse()(url, {
+  return fetchWithResponse(url, {
     headers: {
       Authorization: `Token ${localStorage.getItem("token")}`,
     },
-  });
+  })
 };

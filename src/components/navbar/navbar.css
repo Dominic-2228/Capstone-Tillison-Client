@@ -1,0 +1,127 @@
+
+/* navbar.css */
+
+.custom-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100vw;
+  height: 80px;
+  padding: 0 2rem;
+  background: linear-gradient(90deg, #f5f3f0 0%, #e8e4df 50%, #ddd9d2 100%);
+  box-shadow: 0 2px 8px rgba(45, 80, 22, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  font-family: Arial, sans-serif;
+}
+
+.navbar-left-section {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex: 1;
+  justify-content: flex-start;
+}
+
+.social-icon {
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: #4a4a4a;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.social-icon:hover {
+  transform: scale(1.1);
+}
+
+.navbar-center-left {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  flex: 2;
+  justify-content: center;
+  margin-right: 180px; /* Increased offset to move away from logo */
+  padding-right: 1rem;
+}
+
+.nav-link-button {
+  background: none;
+  border: none;
+  color: #4a4a4a;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.nav-link-button:hover {
+  color: #2d5016;
+}
+
+.navbar-logo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.logo-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2d5016, #4a7c59);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(45, 80, 22, 0.3);
+  border: 3px solid rgba(255, 255, 255, 0.2);
+}
+
+.navbar-signature {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  font-family: 'Brush Script MT', cursive;
+  font-size: 2rem;
+  color: #2d5016;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.logout-button:hover {
+  color: #2d5016;
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  color: #4a4a4a;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  margin-left: 9rem; /* Push significantly to the right */
+}
