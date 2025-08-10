@@ -3,18 +3,25 @@ import { useEffect, useState } from "react";
 import { getUser } from "../../data/user.jsx";
 import { useRouter } from "next/navigation";
 import "./navbar.css";
+import { useUser } from "../hooks/useUser.js";
+
 
 export default function Navbar() {
-  const [user, setUser] = useState({});
   const router = useRouter()
+  const [token, setToken] = useState(localStorage.getItem("token"))
+  const [render, setRerender] = useState(false)
 
-  useEffect(() => {
-    getUser().then(setUser);
-  }, []);
 
   const handleNavigation = (path) => {
     router.push(path);
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+    setToken(null)
+
+    handleNavigation("/")
+  }
 
   const socialMediaLinks = [
     { name: "Instagram", url: "https://www.instagram.com/dominic.tillison?igsh=YXYwa2d5NHQ2azRp&utm_source=qr", icon: "📷" },
@@ -55,21 +62,29 @@ export default function Navbar() {
         >
           Packages
         </button>
-        {user ? (
+        {token ?  (
           <button
-            onClick={() => handleNavigation("/login")}
-            className="logout-button"
-          >
-            Login
-          </button>
-        ) : (
-          <button
-            // onClick={handleLogout}
+            onClick={handleLogout}
             className="logout-button"
           >
             Logout
           </button>
-        )}
+        ) : (
+          <>
+          <button
+            onClick={() => {handleNavigation("/login")}}
+            className="logout-button"
+          >
+            Login
+          </button>
+          <button
+            onClick={() => handleNavigation("/register")}
+            className="logout-button"
+          >
+            Register
+          </button>
+          </>
+        )  }
       </div>
 
       {/* Dead Center - Logo */}

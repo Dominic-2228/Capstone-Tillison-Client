@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const [review, setReview] = useState([]);
-  const user = useUser()
+  const user = useUser();
 
   useEffect(() => {
     fetchReviews();
@@ -22,20 +22,21 @@ export default function Home() {
     }
   }
 
-  const handleDelete = async(e) => {
-    const reviewId = e.target.id
-  
+  const handleDelete = async (e) => {
+    const reviewId = e.target.id;
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_DJANGO_API_URL}/reviews/${reviewId}/`, {
-      method: "DELETE",
-      credentials: "include"
-    })
-
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_DJANGO_API_URL}/reviews/${reviewId}/`,
+      {
+        method: "DELETE",
+        credentials: "include",
+      }
+    );
 
     if (res.ok) {
-      setReview((prevRev) => prevRev.filter((rev) => !rev.id === reviewId))
+      setReview((prevRev) => prevRev.filter((rev) => !rev.id === reviewId));
     }
-}
+  };
 
   console.log("Review array before render:", review);
 
@@ -46,19 +47,26 @@ export default function Home() {
         <ul>
           {Array.isArray(review) && review.length > 0 ? (
             review.map((r, idx) => (
-              <div className="card" >
+              <div className="card">
                 <div className="card-body">
                   <h5 className="card-title">{r.description}</h5>
-                  <h6 className="card-subtitle mb-2 text-muted">{r.user.first_name}</h6>
-                  {user ? user.map((usr) => {
-                    usr.is_admin || usr.id == r.id ? 
-                    <div>
-                    <a href="/edit" className="card-link">
-                    Edit
-                  </a> <a onClick={handleDelete}>Delete</a> 
-                  </div>
-                  : ""
-                  }) : ""}
+                  <h6 className="card-subtitle mb-2 text-muted">
+                    {r.user.first_name}
+                  </h6>
+                  {!user
+                    ? user.map((usr) => {
+                        usr.is_admin || usr.id == r.id ? (
+                          <div>
+                            <a href="/edit" className="card-link">
+                              Edit
+                            </a>{" "}
+                            <a onClick={handleDelete}>Delete</a>
+                          </div>
+                        ) : (
+                          ""
+                        );
+                      })
+                    : ""}
                 </div>
               </div>
             ))

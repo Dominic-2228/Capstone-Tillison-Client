@@ -2,6 +2,7 @@ import AuthLoader from "@/components/AuthLoader.js";
 import Navbar from "@/components/navbar/navbar.jsx";
 import { AppWrapper } from "@/context/state.js";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./globals.css";
 
 export default function RootLayout({ children }) {
   return (
@@ -29,7 +30,7 @@ export default function RootLayout({ children }) {
       <body>
         <AppWrapper>
           <AuthLoader />
-          <Navbar/>
+          <Navbar />
           <main className="container">{children}</main>
         </AppWrapper>
       </body>
