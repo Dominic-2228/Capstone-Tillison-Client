@@ -1,11 +1,13 @@
 "use client";
+import Link from "next/link";
 import { useUser } from "@/components/hooks/useUser.js";
 import { getReviews } from "@/data/reviews.jsx";
 import { useEffect, useState } from "react";
+import { fetchWithResponse } from "@/data/fetcher.js";
 
 export default function Home() {
   const [review, setReview] = useState([]);
-  const user = useUser();
+  const { user, loading } = useUser();
 
   useEffect(() => {
     fetchReviews();
@@ -22,19 +24,17 @@ export default function Home() {
     }
   }
 
-  const handleDelete = async (e) => {
-    const reviewId = e.target.id;
+  const handleDelete = async (reviewId) => {
 
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_DJANGO_API_URL}/reviews/${reviewId}/`,
+    const res = await fetchWithResponse(
+      `reviews/${reviewId}`,
       {
         method: "DELETE",
-        credentials: "include",
       }
     );
 
     if (res.ok) {
-      setReview((prevRev) => prevRev.filter((rev) => !rev.id === reviewId));
+      setReview((prevRev) => prevRev.filter((rev) => rev.id !== reviewId));
     }
   };
 
@@ -42,31 +42,32 @@ export default function Home() {
 
   return (
     <>
+      {/* {make this a component} */}
       <div>
         <h1>Reviews</h1>
         <ul>
           {Array.isArray(review) && review.length > 0 ? (
             review.map((r, idx) => (
-              <div className="card">
+              <div key={idx} className="card">
                 <div className="card-body">
                   <h5 className="card-title">{r.description}</h5>
                   <h6 className="card-subtitle mb-2 text-muted">
                     {r.user.first_name}
                   </h6>
-                  {!user
-                    ? user.map((usr) => {
-                        usr.is_admin || usr.id == r.id ? (
-                          <div>
-                            <a href="/edit" className="card-link">
-                              Edit
-                            </a>{" "}
-                            <a onClick={handleDelete}>Delete</a>
-                          </div>
-                        ) : (
-                          ""
-                        );
-                      })
-                    : ""}
+                  {user ? (
+                    user.is_superuser || user.id === r.user_id ? (
+                      <div>
+                        <Link href={`/edit/${r.id}`} className="card-link">
+                          Edit
+                        </Link>{" "}
+                        <button onClick={() => handleDelete(r.id)}>Delete</button>
+                      </div>
+                    ) : (
+                      ""
+                    )
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
             ))

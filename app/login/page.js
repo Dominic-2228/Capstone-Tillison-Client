@@ -3,12 +3,14 @@ import { useRouter } from "next/navigation";
 import { useContext } from "react";
 
 import { useState } from "react";
+import { useAuth } from "../context/AuthContext.js";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rerender, setRerender] = useState(true);
   const router = useRouter();
+  const {setToken} = useAuth()
 
   const handleNavigation = (path) => {
     router.push(path);
@@ -31,7 +33,7 @@ export default function Login() {
     if (res.ok) {
       localStorage.setItem("token", data.token);
       console.log("Login submitted");
-      setRerender((prev) => !prev);
+      setToken(data.token)
     }
     handleNavigation("/");
   };

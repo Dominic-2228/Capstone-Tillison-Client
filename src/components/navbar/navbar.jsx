@@ -4,30 +4,38 @@ import { getUser } from "../../data/user.jsx";
 import { useRouter } from "next/navigation";
 import "./navbar.css";
 import { useUser } from "../hooks/useUser.js";
-
+import { useAuth } from "../../../app/context/AuthContext.js";
 
 export default function Navbar() {
-  const router = useRouter()
-  const [token, setToken] = useState(localStorage.getItem("token"))
-  const [render, setRerender] = useState(false)
-
+  const router = useRouter();
+  const [render, setRerender] = useState(false);
+  const {token, setToken} = useAuth()
 
   const handleNavigation = (path) => {
     router.push(path);
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token")
-    setToken(null)
+    localStorage.removeItem("token");
+    setToken(null);
+    // how can i set token to the generated token on the navbar page? useContext?
 
-    handleNavigation("/")
-  }
+    handleNavigation("/");
+  };
 
   const socialMediaLinks = [
-    { name: "Instagram", url: "https://www.instagram.com/dominic.tillison?igsh=YXYwa2d5NHQ2azRp&utm_source=qr", icon: "📷" },
+    {
+      name: "Instagram",
+      url: "https://www.instagram.com/dominic.tillison?igsh=YXYwa2d5NHQ2azRp&utm_source=qr",
+      icon: "📷",
+    },
     { name: "Facebook", url: "https://facebook.com", icon: "📘" },
     { name: "Twitter", url: "https://twitter.com", icon: "🐦" },
-    { name: "LinkedIn", url: "https://linkedin.com/dominic-tillison", icon: "💼" },
+    {
+      name: "LinkedIn",
+      url: "https://linkedin.com/dominic-tillison",
+      icon: "💼",
+    },
   ];
 
   return (
@@ -62,29 +70,28 @@ export default function Navbar() {
         >
           Packages
         </button>
-        {token ?  (
-          <button
-            onClick={handleLogout}
-            className="logout-button"
-          >
+        {token ? (
+          <button onClick={handleLogout} className="logout-button">
             Logout
           </button>
         ) : (
           <>
-          <button
-            onClick={() => {handleNavigation("/login")}}
-            className="logout-button"
-          >
-            Login
-          </button>
-          <button
-            onClick={() => handleNavigation("/register")}
-            className="logout-button"
-          >
-            Register
-          </button>
+            <button
+              onClick={() => {
+                handleNavigation("/login");
+              }}
+              className="logout-button"
+            >
+              Login
+            </button>
+            <button
+              onClick={() => handleNavigation("/register")}
+              className="logout-button"
+            >
+              Register
+            </button>
           </>
-        )  }
+        )}
       </div>
 
       {/* Dead Center - Logo */}

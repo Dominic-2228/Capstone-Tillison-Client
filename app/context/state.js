@@ -1,6 +1,6 @@
 "use client"
 import { createContext, useContext, useEffect, useState } from 'react';
-import { getUserProfile } from '../data/auth';
+import { getUserProfile } from '../../src/data/auth';
 
 const AppContext = createContext();
 

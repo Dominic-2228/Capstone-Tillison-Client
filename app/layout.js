@@ -1,10 +1,22 @@
+"use client";
 import AuthLoader from "@/components/AuthLoader.js";
 import Navbar from "@/components/navbar/navbar.jsx";
-import { AppWrapper } from "@/context/state.js";
+import { AppWrapper } from "./context/state.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
+import { useEffect, useState } from "react";
+import { AuthProvider } from "./context/AuthContext.js";
 
 export default function RootLayout({ children }) {
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      setToken(storedToken);
+    }
+  }, []);
+
   return (
     <html lang="en">
       <head>
@@ -29,9 +41,11 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <AppWrapper>
-          <AuthLoader />
-          <Navbar />
-          <main className="container">{children}</main>
+          <AuthProvider>
+            <AuthLoader />
+            <Navbar token={token} setToken={setToken} />
+            <main className="container">{children}</main>
+          </AuthProvider>
         </AppWrapper>
       </body>
     </html>
