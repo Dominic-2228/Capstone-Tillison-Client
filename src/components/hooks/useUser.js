@@ -1,9 +1,11 @@
+import { fetchWithResponse } from "@/data/fetcher.js";
 import { useEffect, useState } from "react";
 
 export function useUser() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -12,9 +14,9 @@ export function useUser() {
       return;
     }
 
-    fetch(`http://localhost:8000/users`, {
+    fetchWithResponse(`http://localhost:8000/users/profile/`, {
       headers: {
-        "Authorization": `Token ${token}`,
+        Authorization: `Token ${token}`,
       },
     })
       .then((res) => {
