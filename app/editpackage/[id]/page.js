@@ -1,7 +1,10 @@
 "use client";
 
 import { createUpdatePackage, getPackages } from "@/data/getPackages.js";
-import { getPackageServices } from "@/data/getPackageServices.jsx";
+import {
+  createPackageService,
+  getPackageServices,
+} from "@/data/getPackageServices.jsx";
 import { useParams } from "next/navigation.js";
 import { useEffect, useState } from "react";
 import Packages from "../../packages/page.js";
@@ -15,11 +18,8 @@ export default function EditPackage() {
   const [packageServices, setPackageServices] = useState([]);
   const [servicesOnly, setServicesOnly] = useState([]);
   const { id } = useParams();
-  const [updatedPackage, setUpdatedPackage] = useState({
-    name: '',
-    price: 0,
-    services
-  })
+  const [selectedServices, setSelectedServices] = useState([]);
+  
 
   useEffect(() => {
     getServices().then(setServicesOnly);
@@ -60,6 +60,22 @@ export default function EditPackage() {
     }));
   };
 
+  const handleChangeServices = (e) => {
+    const checked = e.target.checked
+    const serviceId = parseInt(value);
+
+// trying to get the service id's in an array and call the create function as the index of the array
+// while setting the service_id of that newly created obj to the iteration value of that index
+      setSelectedServices(prev => {
+        let updated
+        if (checked){
+          updated = [...prev, serviceId]
+        } else {
+          updated = prev.filter(id => id !== serviceId)
+        }
+      })
+
+
   return (
     <>
       <form onSubmit={handleSave}>
@@ -98,12 +114,11 @@ export default function EditPackage() {
                     type="checkbox"
                     name="service"
                     id={`service-${serviceOnly.id}`}
-                    value={serviceOnly.service?.id}
+                    value={serviceOnly.id}
                     checked={packageServices.some(
-                      (pkgService) =>
-                        pkgService.service?.id === serviceOnly.id
+                      (pkgService) => pkgService.service?.id === serviceOnly.id
                     )}
-                    onChange={handleChange}
+                    onChange={handleChangeServices}
                   />
                   <label
                     className="form-check-label"
@@ -113,7 +128,6 @@ export default function EditPackage() {
                   </label>
                 </div>
               ))}
-              {console.log(servicesOnly)}
             </div>
           </div>
         </div>

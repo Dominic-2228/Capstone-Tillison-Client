@@ -14,3 +14,17 @@ export const getPackageServices = (id = undefined) => {
     },
   });
 };
+
+
+export const createPackageService = (packageService) => {
+    let url = 'packageservices'
+
+  return fetchWithResponse(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${localStorage.getItem("token")}`,
+    },
+    body: JSON.stringify(packageService)
+  })
+}
