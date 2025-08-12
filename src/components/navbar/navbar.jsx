@@ -17,8 +17,8 @@ export default function Navbar() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.clear()
     setToken(null);
-    // how can i set token to the generated token on the navbar page? useContext?
 
     handleNavigation("/");
   };

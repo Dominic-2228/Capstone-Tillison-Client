@@ -15,7 +15,8 @@ export default function Home() {
 
   async function fetchReviews() {
     try {
-      const response = await fetch("/api/page");
+      const token = localStorage.getItem("token");
+      const response = await fetch(`/api/page?token=${token}`);
       const data = await response.json();
       console.log("Fetched data:", data);
       setReview(data);
@@ -25,21 +26,19 @@ export default function Home() {
   }
 
   const handleDelete = async (reviewId) => {
-
-    const res = await fetchWithResponse(
-      `reviews/${reviewId}`,
-      {
-        method: "DELETE",
+    const token = localStorage.getItem("token");
+    const res = await fetchWithResponse(`reviews/${reviewId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Token ${token}`,
       }
-    );
+    });
 
     if (res.ok) {
       setReview((prevRev) => prevRev.filter((rev) => rev.id !== reviewId));
     }
   };
-
-  console.log("Review array before render:", review);
-
+  
   return (
     <>
       {/* {make this a component} */}
@@ -52,7 +51,7 @@ export default function Home() {
                 <div className="card-body">
                   <h5 className="card-title">{r.description}</h5>
                   <h6 className="card-subtitle mb-2 text-muted">
-                    {r.user.first_name}
+                    {r.user.first_name} {""} {`${r.rating}/5`}
                   </h6>
                   {user ? (
                     user.is_superuser || user.id === r.user_id ? (
@@ -60,7 +59,9 @@ export default function Home() {
                         <Link href={`/edit/${r.id}`} className="card-link">
                           Edit
                         </Link>{" "}
-                        <button onClick={() => handleDelete(r.id)}>Delete</button>
+                        <button onClick={() => handleDelete(r.id)}>
+                          Delete
+                        </button>
                       </div>
                     ) : (
                       ""

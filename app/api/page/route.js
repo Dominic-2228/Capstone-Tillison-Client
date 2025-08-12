@@ -1,13 +1,15 @@
 import { NextResponse } from "next/server";
 
-export async function GET() {
-  
+export async function GET(request) {
+  const {searchParams} = new URL (request.url)
+  const token = searchParams.get("token")
   try {
     
     const res = await fetch("http://localhost:8000/reviews", {
       cache: 'no-cache', // Disable caching
       headers: {
         'Cache-Control': 'no-cache',
+        Authorization: `Token ${token}`,
       }
     });
     

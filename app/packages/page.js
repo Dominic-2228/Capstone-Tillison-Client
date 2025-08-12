@@ -7,10 +7,14 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext.js";
 
 export default function Packages() {
+  const [photoPackage, setPhotoPackage] = useState([])
   const [photoPackageServices, setPhotoPackageServices] = useState([]);
   const { user, loading } = useUser();
   const router = useRouter()
-  const {photoPackage, setPhotoPackage} = useAuth()
+
+  useEffect(() => {
+    getPackages().then(setPhotoPackage);
+  }, []);
 
   useEffect(() => {
     getPackageServices().then(setPhotoPackageServices);
@@ -29,7 +33,6 @@ export default function Packages() {
             <h5 className="card-title">{packages.name}</h5>
             <p className="card-text">${packages.price}</p>
           </div>
-
           <ul>
             {photoPackageServices
               .filter((ser) => ser.package.id === packages.id)
@@ -39,17 +42,19 @@ export default function Packages() {
                 </li>
               ))}
           </ul>
-          {console.log(photoPackageServices)}
 
           {user && user.is_superuser ? (
             <div className="card-body">
-              <button className="card-link" type="button">
+              <button className="card-link" type="button" onClick={() => {
+                handleNavigation(`/editpackage/${packages.id}`)
+              }}>
                 Edit
               </button>
               <button className="card-link" type="button">
                 Delete
               </button>
-              <button type="button" onClick={() => handleNavigation("/createreview")}>Review</button>
+              <button type="button" onClick={() => 
+              handleNavigation(`/createreview/${packages.id}`)}>Review</button>
             </div>
           ) : (
             <div className="card-body">

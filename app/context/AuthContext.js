@@ -12,7 +12,6 @@ export function AuthProvider({ children }) {
     const storedToken = localStorage.getItem("token");
     if (storedToken) setToken(storedToken);
   }, []);
-
     useEffect(() => {
     getPackages().then(setPhotoPackage);
   }, []);

@@ -28,7 +28,7 @@ export const createUpdateReview = (review, id) => {
   });
 };
 
-export const createReview = (review) => {
+export const createReviewFun = (review) => {
   let url = 'reviews'
 
   return fetchWithResponse(url, {

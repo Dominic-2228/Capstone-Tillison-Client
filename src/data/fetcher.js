@@ -1,3 +1,4 @@
+"use client"
 const API_URL = 'http://localhost:8000'
 
 const checkError = (res) => {
@@ -7,32 +8,14 @@ const checkError = (res) => {
   return res
 }
 
-// const checkErrorJson = (res) => {
-//   if (res.status !== 200) {
-//     throw Error(res.status);
-//   } else {
-//     return res.json()
-//   }
-// }
-
 const checkErrorJson = (res) => {
+  if (res.status === 204) return { ok: true };
   if (!res.ok) { // Accepts 200–299
     throw Error(res.status);
   } else {
     return res.json();
   }
 };
-
-
-// const catchError = (err) => {
-//   if (err.message === '401') {
-//     window.location.href = "/login"
-//   }
-//   if (err.message === '404') {
-//     console.error("Resource not found")
-//     throw Error(err.message);
-//   }
-// }
 
 function redirectToLogin() {
   if (typeof window !== "undefined") {

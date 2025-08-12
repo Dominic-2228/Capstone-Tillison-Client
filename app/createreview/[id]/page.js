@@ -1,21 +1,22 @@
 "use client";
 import { useParams } from "next/navigation.js";
 import { useAuth } from "../../context/AuthContext.js";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { getPackages } from "@/data/getPackages.js";
 import { useUser } from "@/components/hooks/useUser.js";
-import { createReview } from "@/data/reviews.jsx";
+import { createReviewFun } from "@/data/reviews.jsx";
+import { useRouter } from "next/navigation.js";
 
 export default function CreateReview() {
   const { id } = useParams();
-  const { user, loading } = useUser();
+  const {user} = useAuth();
   const { photoPackage, setPhotoPackage } = useAuth();
   const [createReview, setCreateReview] = useState({
     description: "",
     rating: "",
-    user: user.id,
-    package: id,
+    package_id: id,
   });
+  const router = useRouter();
 
   useEffect(() => {
     getPackages(id).then(setPhotoPackage);
@@ -25,8 +26,12 @@ export default function CreateReview() {
     e.preventDefault();
 
     if (createReview.description && createReview.rating) {
-      createReview(createReview).then(() => handleNavigation("/"));
+      createReviewFun(createReview).then(() => handleNavigation("/"));
     }
+  };
+
+    const handleNavigation = (path) => {
+    router.push(path);
   };
 
   const handleChange = (e) => {

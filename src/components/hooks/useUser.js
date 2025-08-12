@@ -1,32 +1,42 @@
+"use client";
 import { fetchWithResponse } from "@/data/fetcher.js";
 import { useEffect, useState } from "react";
 
 export function useUser() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(undefined); // undefined = still loading
   const [loading, setLoading] = useState(true);
 
-  
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setLoading(false);
-      setUser(null);
-      return;
-    }
+useEffect(() => {
+  const token = localStorage.getItem("token");
+  console.log("useUser token:", token);
 
-    fetchWithResponse(`http://localhost:8000/users/profile/`, {
-      headers: {
-        Authorization: `Token ${token}`,
-      },
+  if (!token) {
+    console.log("No token found - setting user to null");
+    setUser(null); // null = not logged in
+    setLoading(false);
+    return;
+  }
+
+  fetchWithResponse(`users/profile`, {
+    method: "GET",
+    headers: { Authorization: `Token ${token}` },
+  })
+    .then((data) => {
+      console.log("Fetched user data:", data);
+      if (data) {
+        setUser(data);
+      }
+      else setUser(null); 
     })
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch user");
-        return res.json();
-      })
-      .then((data) => setUser(data))
-      .catch(() => setUser(null))
-      .finally(() => setLoading(false));
-  }, []);
-
+    .catch((err) => {
+      console.error("Error fetching user:", err);
+      setUser(null);
+    })
+    .finally(() => {
+      setLoading(false);
+      console.log("Loading set to false");
+    });
+}, []);
+    
   return { user, loading };
 }
