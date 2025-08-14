@@ -1,21 +1,30 @@
 import { fetchWithResponse } from "./fetcher.js";
 
 export const getReviews = (id = undefined) => {
-  let url = "reviews";
+  try {
+    let url = "reviews";
 
-  // If an id is provided, fetch a single review
-  if (id) {
-    url += `/${id}`;
+    // If an id is provided, fetch a single review
+    if (id) {
+      url += `/${id}`;
+    }
+
+    return fetchWithResponse(url, {
+      headers: {
+        Authorization: `Token ${localStorage.getItem("token")}`,
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching packages:", error);
+    return []; // optional fallback for logged-out users
   }
-
-  return fetchWithResponse(url, {
-    headers: {
-      Authorization: `Token ${localStorage.getItem("token")}`,
-    },
-  });
 };
 
 export const createUpdateReview = (review, id) => {
+  const token = localStorage.getItem('token')
+  if (!token) {
+    throw new Error("No auth token");
+  }
   let url = `reviews/${id}`;
 
   return fetchWithResponse(url, {
@@ -29,7 +38,7 @@ export const createUpdateReview = (review, id) => {
 };
 
 export const createReviewFun = (review) => {
-  let url = 'reviews'
+  let url = "reviews";
 
   return fetchWithResponse(url, {
     method: "POST",
@@ -37,6 +46,6 @@ export const createReviewFun = (review) => {
       "Content-Type": "application/json",
       Authorization: `Token ${localStorage.getItem("token")}`,
     },
-    body: JSON.stringify(review)
-  })
-}
+    body: JSON.stringify(review),
+  });
+};

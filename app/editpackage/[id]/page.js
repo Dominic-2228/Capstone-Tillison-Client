@@ -9,6 +9,8 @@ import { useParams } from "next/navigation.js";
 import { useEffect, useState } from "react";
 import Packages from "../../packages/page.js";
 import { getServices } from "@/data/getServices.js";
+import { useRouter } from "next/navigation.js";
+import { fetchWithResponse } from "@/data/fetcher.js";
 
 export default function EditPackage() {
   const [updatePackage, setUpdatePackage] = useState({
@@ -19,38 +21,69 @@ export default function EditPackage() {
   const [servicesOnly, setServicesOnly] = useState([]);
   const { id } = useParams();
   const [selectedServices, setSelectedServices] = useState([]);
-  
+  const [originalServices, setOriginalServices] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
     getServices().then(setServicesOnly);
   }, []);
 
   useEffect(() => {
-    getPackages(id).then((data) => {
-      setUpdatePackage({
-        name: data.name,
-        price: data.price,
+    getPackages(id)
+      .then((data) => {
+        setUpdatePackage({
+          name: data.name,
+          price: data.price,
+        });
+      })
+      .catch((err) => {
+        if (err.status === 401) {
+          console.log("Not authenticated, skipping fetch");
+        } else {
+          console.error(err);
+        }
       });
-    });
   }, [id]);
 
   useEffect(() => {
     getPackageServices().then((data) => {
-      const filteredServices = data.filter(
-        (item) => item.package?.id === parseInt(id)
-      );
-      setPackageServices(filteredServices);
+      const filteredServices = data.filter((item) => item.package?.id === parseInt(id))
+      setPackageServices(filteredServices)
+      const serviceIds = filteredServices.map((ser) => ser.service.id)
+      setSelectedServices(serviceIds)
+      setOriginalServices(serviceIds)
+    })
+  }, [id])
+
+  const handleSave = async (e) => {
+  e.preventDefault();
+  if (!updatePackage.name || !updatePackage.price) return;
+
+  try {
+    // Update package info first
+    await createUpdatePackage(updatePackage, id);
+
+    // Determine added/removed services
+    const currentServiceIds = packageServices.map(ps => ps.service.id);
+    const added = selectedServices.filter(sid => !currentServiceIds.includes(sid));
+    const removed = currentServiceIds.filter(sid => !selectedServices.includes(sid));
+
+    // Bulk update services
+    await fetch(`http://localhost:8000/packageservices/${id}/bulk-update`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({ added, removed }),
     });
-  }, [id]);
-  console.log(packageServices);
 
-  const handleSave = (e) => {
-    e.preventDefault();
-
-    if (updatePackage.description && updatePackage.rating) {
-      createUpdatePackage(updatePackage, id).then(() => handleNavigation("/"));
-    }
-  };
+    // Navigate
+    router.push("/packages");
+  } catch (err) {
+    console.error(err);
+  }
+};
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -60,30 +93,30 @@ export default function EditPackage() {
     }));
   };
 
-  const handleChangeServices = (e) => {
-    const checked = e.target.checked
-    const serviceId = parseInt(value);
+  const handleNavigation = (path) => {
+    router.push(path);
+  };
 
-// trying to get the service id's in an array and call the create function as the index of the array
-// while setting the service_id of that newly created obj to the iteration value of that index
-      setSelectedServices(prev => {
-        let updated
-        if (checked){
-          updated = [...prev, serviceId]
-        } else {
-          updated = prev.filter(id => id !== serviceId)
-        }
-      })
-
+const handleChangeServices = (serviceId) => {
+  setSelectedServices((prev) =>
+    prev.includes(serviceId)
+      ? prev.filter((id) => id !== serviceId) // remove
+      : [...prev, serviceId] // add
+  );
+};
 
   return (
     <>
-      <form onSubmit={handleSave}>
+      <form
+        onSubmit={(e) => {
+          handleSave(e)
+        }}
+      >
         <div className="form-row">
           <div className="form-group col-md-6">
             <label htmlFor="inputCity">Name</label>
             <input
-              name="description"
+              name="name"
               value={updatePackage.name || ""}
               type="text"
               className="form-control"
@@ -115,10 +148,8 @@ export default function EditPackage() {
                     name="service"
                     id={`service-${serviceOnly.id}`}
                     value={serviceOnly.id}
-                    checked={packageServices.some(
-                      (pkgService) => pkgService.service?.id === serviceOnly.id
-                    )}
-                    onChange={handleChangeServices}
+                    checked={selectedServices.includes(serviceOnly.id)}
+                    onChange={() => handleChangeServices(serviceOnly.id)}
                   />
                   <label
                     className="form-check-label"
@@ -131,13 +162,13 @@ export default function EditPackage() {
             </div>
           </div>
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary" onClick={() => handleNavigation("/packages")}>
           Save
         </button>
         <button
           type="button"
           className="btn btn-primary"
-          onClick={() => handleNavigation("/")}
+          onClick={() => handleNavigation("/packages")}
         >
           Cancel
         </button>

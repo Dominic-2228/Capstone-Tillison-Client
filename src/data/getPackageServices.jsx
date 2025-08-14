@@ -1,23 +1,37 @@
 import { fetchWithResponse } from "./fetcher.js";
 
-export const getPackageServices = (id = undefined) => {
-  let url = "packageservices";
+export const getPackageServices = async (id = undefined) => {
+  try {
+    const token = localStorage.getItem("token");
 
-  // If an id is provided, fetch a single review
-  if (id) {
-    url += `/${id}`;
+    let url = "packageservices";
+    if (id) {
+      url += `/${id}`;
+    }
+
+    if (token) {
+      const response = await fetchWithResponse(url, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      });
+      return response;
+    } else {
+      const response = await fetchWithResponse(url);
+      return response;
+    }
+  } catch (error) {
+    console.error("Error fetching package services:", error);
+    throw error; // rethrow so calling code can handle it too
   }
-
-  return fetchWithResponse(url, {
-    headers: {
-      Authorization: `Token ${localStorage.getItem("token")}`,
-    },
-  });
 };
 
-
 export const createPackageService = (packageService) => {
-    let url = 'packageservices'
+  const token = localStorage.getItem("token");
+  if (!token) {
+    throw new Error("No auth token");
+  }
+  let url = "packageservices";
 
   return fetchWithResponse(url, {
     method: "POST",
@@ -25,6 +39,6 @@ export const createPackageService = (packageService) => {
       "Content-Type": "application/json",
       Authorization: `Token ${localStorage.getItem("token")}`,
     },
-    body: JSON.stringify(packageService)
-  })
-}
+    body: JSON.stringify(packageService),
+  });
+};

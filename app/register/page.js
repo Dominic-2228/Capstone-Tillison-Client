@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation.js";
 import { useState } from "react";
 
 export default function Register() {
@@ -8,6 +9,11 @@ export default function Register() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUserName] = useState("");
+  const router = useRouter()
+
+    const handleNavigation = (path) => {
+    router.push(path);
+  };
 
   const Register = async (e) => {
     e.preventDefault();
@@ -28,6 +34,7 @@ export default function Register() {
 
     if (res.ok) {
       localStorage.setItem("token", data.token);
+      handleNavigation("/")
     }
   };
 
@@ -100,7 +107,7 @@ export default function Register() {
             id="exampleCheck1"
           />
           <label className="form-check-label" for="exampleCheck1">
-            Check me out
+            Admin
           </label>
         </div>
         <button type="submit" className="btn btn-primary">

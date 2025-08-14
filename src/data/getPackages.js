@@ -2,32 +2,27 @@ import { fetchWithResponse } from "./fetcher.js";
 
 export const getPackages = async (id = undefined) => {
   try {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      throw new Error("No auth token");
-    }
-
     let url = "packages";
-    if (id) {
-      url += `/${id}`;
-    }
+    if (id) url += `/${id}`;
 
-    const data = await fetchWithResponse(url, {
-      headers: {
-        Authorization: `Token ${token}`,
-      },
-    });
-
+    const data = await fetchWithResponse(url); // remove Authorization header
     return data;
   } catch (error) {
-    console.error("Error no auth token:", error);
-    throw error;
+    console.error("Error fetching packages:", error);
+    return []; // optional fallback for logged-out users
   }
 };
+export const createUpdatePackage = (photoPackage, id) => {
+  const token = localStorage.getItem("token")
+  let url = "packages";
 
+  if (!token) {
+    throw new Error("No auth token");
+  }
 
-export const createUpdatePackage = (photoPackage) => {
-  let url = 'packages'
+  if (id) {
+    url += `/${id}`;
+  }
 
   return fetchWithResponse(url, {
     method: "PUT",
@@ -35,6 +30,6 @@ export const createUpdatePackage = (photoPackage) => {
       "Content-Type": "application/json",
       Authorization: `Token ${localStorage.getItem("token")}`,
     },
-    body: JSON.stringify(photoPackage)
-  })
-}
+    body: JSON.stringify(photoPackage),
+  });
+};

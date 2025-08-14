@@ -1,5 +1,6 @@
 export async function POST(request) {
   const body = await request.json();
+  const token = localStorage.getItem("token");
 
   const res = await fetch(`http://localhost:8000/users/register`, {
     method: "POST",
@@ -7,6 +8,7 @@ export async function POST(request) {
     headers: {
       "Content-Type": "application/json",
       "Cache-Control": "no-cache",
+      Authorization: `Token ${token}`,
     },
     body: JSON.stringify(body),
   });
