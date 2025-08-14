@@ -9,18 +9,46 @@ import { useAuth } from "../../../app/context/AuthContext.js";
 export default function Navbar() {
   const router = useRouter();
   const [render, setRerender] = useState(false);
-  const {token, setToken} = useAuth()
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { token, setToken } = useAuth();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > lastScrollY && currentScrollY > 80) {
+        // Scrolling down
+        setIsVisible(false);
+      } else {
+        // Scrolling up
+        setIsVisible(true);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
 
   const handleNavigation = (path) => {
     router.push(path);
+    setIsMobileMenuOpen(false); // Close mobile menu on navigation
   };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.clear()
+    localStorage.clear();
     setToken(null);
-
+    setIsMobileMenuOpen(false);
     handleNavigation("/");
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   const socialMediaLinks = [
@@ -39,68 +67,153 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="custom-navbar">
-      {/* Left Side - Social Media Icons */}
-      <div className="navbar-left-section">
-        {socialMediaLinks.map((social, index) => (
-          <a
-            key={index}
-            href={social.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="social-icon"
-            title={social.name}
+    <>
+      <nav
+        className={`custom-navbar ${
+          isVisible ? "navbar-visible" : "navbar-hidden"
+        }`}
+      >
+        {/* Mobile Menu Button */}
+        <button
+          className="mobile-menu-button"
+          onClick={toggleMobileMenu}
+          aria-label="Toggle menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        {/* Left Side - Social Media Icons */}
+        <div className="navbar-left-section">
+          {socialMediaLinks.map((social, index) => (
+            <a
+              key={index}
+              href={social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-icon"
+              title={social.name}
+            >
+              {social.icon}
+            </a>
+          ))}
+        </div>
+
+        {/* Center Left - Navigation Links */}
+        <div className="navbar-center-left">
+          <button
+            onClick={() => handleNavigation("/portfolio")}
+            className="nav-link-button"
           >
-            {social.icon}
-          </a>
-        ))}
-      </div>
-
-      {/* Center Left - Navigation Links */}
-      <div className="navbar-center-left">
-        <button
-          onClick={() => handleNavigation("/portfolio")}
-          className="nav-link-button"
-        >
-          Portfolio
-        </button>
-        <button
-          onClick={() => handleNavigation("/packages")}
-          className="nav-link-button"
-        >
-          Packages
-        </button>
-        {token ? (
-          <button onClick={handleLogout} className="logout-button">
-            Logout
+            Portfolio
           </button>
-        ) : (
-          <>
-            <button
-              onClick={() => {
-                handleNavigation("/login");
-              }}
-              className="logout-button"
-            >
-              Login
-            </button>
-            <button
-              onClick={() => handleNavigation("/register")}
-              className="logout-button"
-            >
-              Register
-            </button>
-          </>
-        )}
-      </div>
+          <button
+            onClick={() => handleNavigation("/packages")}
+            className="nav-link-button"
+          >
+            Packages
+          </button>
+        </div>
 
-      {/* Dead Center - Logo */}
-      <div className="navbar-logo">
-        <div className="logo-circle">LOGO</div>
-      </div>
+        {/* Dead Center - Logo */}
+        <div className="navbar-logo">
+          <div className="logo-circle">LOGO</div>
+        </div>
 
-      {/* Far Right - Signature */}
-      <div className="navbar-signature">tillison</div>
-    </nav>
+        {/* Center Right - Auth Buttons */}
+        <div className="navbar-center-right">
+          {token ? (
+            <button
+              onClick={handleLogout}
+              className="auth-button logout-button"
+            >
+              Logout
+            </button>
+          ) : (
+            <>
+              <button
+                onClick={() => handleNavigation("/login")}
+                className="auth-button login-button"
+              >
+                Login
+              </button>
+              <button
+                onClick={() => handleNavigation("/register")}
+                className="auth-button register-button"
+              >
+                Register
+              </button>
+            </>
+          )}
+        </div>
+
+        {/* Far Right - Signature */}
+        <div className="navbar-signature">tillison</div>
+      </nav>
+
+      {/* Mobile Menu Overlay */}
+      <div
+        className={`mobile-menu-overlay ${
+          isMobileMenuOpen ? "mobile-menu-open" : ""
+        }`}
+      >
+        <div className="mobile-menu-content">
+          <button
+            onClick={() => handleNavigation("/portfolio")}
+            className="mobile-nav-link"
+          >
+            Portfolio
+          </button>
+          <button
+            onClick={() => handleNavigation("/packages")}
+            className="mobile-nav-link"
+          >
+            Packages
+          </button>
+
+          <div className="mobile-social-section">
+            {socialMediaLinks.map((social, index) => (
+              <a
+                key={index}
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mobile-social-icon"
+                title={social.name}
+              >
+                {social.icon} {social.name}
+              </a>
+            ))}
+          </div>
+
+          <div className="mobile-auth-section">
+            {token ? (
+              <button
+                onClick={handleLogout}
+                className="mobile-auth-button logout-button"
+              >
+                Logout
+              </button>
+            ) : (
+              <>
+                <button
+                  onClick={() => handleNavigation("/login")}
+                  className="mobile-auth-button login-button"
+                >
+                  Login
+                </button>
+                <button
+                  onClick={() => handleNavigation("/register")}
+                  className="mobile-auth-button register-button"
+                >
+                  Register
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    </>
   );
 }

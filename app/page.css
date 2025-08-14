@@ -19,7 +19,7 @@ body {
   overflow: hidden;
 }
 
-.initial-view .image-samples {
+.initial-photo {
   position: absolute;
   top: 0;
   left: 0;
@@ -33,7 +33,7 @@ body {
   z-index: 1;
 }
 
-.initial-view .image-samples:hover {
+.initial-photo:hover {
   transform: none;
   box-shadow: none;
 }

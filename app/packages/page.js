@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation.js";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext.js";
 import { fetchWithResponse } from "@/data/fetcher.js";
+import "./page.css";
 
 export default function Packages() {
   const [photoPackage, setPhotoPackage] = useState([]);
@@ -35,14 +36,20 @@ export default function Packages() {
         Authorization: `Token ${token}`,
       },
     });
-    setPhotoPackage(photoPackage.filter((photo) => photo.id !== packageId))
-  }
+    setPhotoPackage(photoPackage.filter((photo) => photo.id !== packageId));
+  };
 
-    return (
-      <>
-        {/* {single responsibility refactor} */}
+  return (
+    <>
+      <div className="packages-top">
+        <img src="/PXL_20210529_223211273.jpg" alt="package-photo" />
+        <h2>Packages</h2>
+        <p>Let's Do This Together</p>
+      </div>
+
+      <div className="packages-container">
         {photoPackage.map((packages) => (
-          <div className="card" style={{ width: "18rem" }} key={packages.id}>
+          <div className="card" key={packages.id}>
             <div className="card-body">
               <h5 className="card-title">{packages.name}</h5>
               <p className="card-text">${packages.price}</p>
@@ -95,10 +102,20 @@ export default function Packages() {
                 >
                   Review
                 </button>
+                <button
+                  className="card-link"
+                  type="button"
+                  onClick={() =>
+                    handleNavigation(`/createbooking/${packages.id}`)
+                  }
+                >
+                  Book
+                </button>
               </div>
             )}
           </div>
         ))}
-      </>
-    );
-  };
+      </div>
+    </>
+  );
+}

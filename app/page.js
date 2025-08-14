@@ -45,7 +45,7 @@ export default function Home() {
       {/* {make this a component} */}
 
       <div className="initial-view">
-        <img className="image-samples" src="/DOM_6368.jpg" alt="Sample" />
+        <img className="initial-photo" src="/DOM_6368.jpg" alt="Sample" />
         <img src="logo" alt="logo" />
         <h3>Capturing "THE" Moment</h3>
       </div>
