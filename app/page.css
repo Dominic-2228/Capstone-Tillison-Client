@@ -1,4 +1,6 @@
 /* Global page styling */
+
+@import url('https://fonts.googleapis.com/css2?family=Meow+Script&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap');
 body {
   background-color: #F1EADA;
   font-family: 'Arial', sans-serif;
@@ -9,14 +11,20 @@ body {
 
 /* Initial view section - hero area */
 .initial-view {
-  position: relative;
   width: 100%;
+  max-width: 100vw;
   height: 100vh;
+  margin: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  overflow-x: clip;
+}
+
+h3 {
+    font-family: "Meow Script", cursive;
 }
 
 .initial-photo {
@@ -78,7 +86,7 @@ body {
   padding: 80px 20px 60px;
   max-width: 1200px;
   margin: 0 auto;
-  position: relative;
+  position: relative; 
 }
 
 .about-us h2 {
@@ -88,6 +96,7 @@ body {
   margin-bottom: 50px;
   font-weight: 300;
   text-shadow: 0 2px 4px rgba(88, 71, 56, 0.1);
+  font-family: "Meow Script", cursive;
 }
 
 .about-us > div:first-of-type {
@@ -229,6 +238,7 @@ h1 {
   margin: 40px 0 30px 0;
   font-weight: 300;
   text-shadow: 0 2px 4px rgba(88, 71, 56, 0.1);
+  font-family: "Meow Script", cursive;
 }
 
 /* Reviews list styling */

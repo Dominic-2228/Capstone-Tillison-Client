@@ -47,7 +47,9 @@ export default function Home() {
       <div className="initial-view">
         <img className="initial-photo" src="/DOM_6368.jpg" alt="Sample" />
         <img src="logo" alt="logo" />
-        <h3>Capturing "THE" Moment</h3>
+        <h3>Capturing</h3>
+        <h3>the</h3>
+        <h3>Moment</h3>
       </div>
       <div className="about-us">
         <h2>About Us</h2>

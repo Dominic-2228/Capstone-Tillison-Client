@@ -1,8 +1,8 @@
 "use client";
+import "bootstrap/dist/css/bootstrap.min.css";
 import AuthLoader from "@/components/AuthLoader.js";
 import Navbar from "@/components/navbar/navbar.jsx";
 import { AppWrapper } from "./context/state.js";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
 import { useEffect, useState } from "react";
 import { AuthProvider } from "./context/AuthContext.js";

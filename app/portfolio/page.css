@@ -1,0 +1,139 @@
+/* Portfolio Component Styles */
+body {
+  background-color: #F1EADA;
+  min-height: 100vh;
+}
+
+h1 {
+  text-align: center;
+  color: #584738;
+  font-size: 2.5rem;
+  margin: 4rem 0 6rem 0;
+  font-family: 'Georgia', serif;
+  font-weight: 300;
+}
+
+.img-header,
+.img-headers {
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: #584738;
+  text-align: center;
+  margin: 6rem 0 3rem 0;
+  font-family: 'Georgia', serif;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  margin-bottom: 8rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  justify-items: center;
+  align-items: start;
+}
+
+.image-samples {
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+/* Different sizes for visual interest */
+.image-samples:nth-child(odd) {
+  width: 280px;
+  height: 200px;
+}
+
+.image-samples:nth-child(even) {
+  width: 320px;
+  height: 240px;
+}
+
+.image-samples:nth-child(3n) {
+  width: 300px;
+  height: 220px;
+}
+
+/* Hover effects */
+.image-samples:hover {
+  transform: translateY(-4px);
+  opacity: 0.9;
+}
+
+/* Nature photos container - different layout */
+.container:last-child .image-samples {
+  display: inline-block;
+  margin: 0.5rem;
+  vertical-align: top;
+}
+
+.container:last-child .image-samples:nth-child(even) {
+  width: 260px;
+  height: 180px;
+}
+
+.container:last-child .image-samples:nth-child(odd) {
+  width: 300px;
+  height: 220px;
+}
+
+.container:last-child .image-samples:nth-child(3n) {
+  width: 340px;
+  height: 250px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    margin: 0 1rem 4rem 1rem;
+    padding: 0 1rem;
+  }
+  
+  .row {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  
+  .image-samples {
+    width: 100% !important;
+    max-width: 300px;
+    height: auto !important;
+    aspect-ratio: 4/3;
+  }
+  
+  h1 {
+    font-size: 2rem;
+    margin: 3rem 0 4rem 0;
+  }
+  
+  .img-header,
+  .img-headers {
+    font-size: 1.2rem;
+    margin: 4rem 0 2rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .image-samples {
+    width: 100% !important;
+    max-width: 250px;
+  }
+  
+  h1 {
+    font-size: 1.8rem;
+  }
+  
+  .img-header,
+  .img-headers {
+    font-size: 1.2rem;
+  }
+}

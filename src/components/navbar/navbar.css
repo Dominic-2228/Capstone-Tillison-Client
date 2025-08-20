@@ -88,7 +88,7 @@
 
 .nav-link-button {
   background: none;
-  border: 2px solid #AAA396;
+  border: none;
   color: #584738;
   font-size: 1rem;
   font-weight: 500;
@@ -96,14 +96,12 @@
   padding: 0.75rem 1.5rem;
   border-radius: 25px;
   transition: all 0.3s ease;
-  background-color: rgba(241, 234, 218, 0.7);
+  position: relative;
 }
 
 .nav-link-button:hover {
-  background-color: #B59E7D;
-  color: #F1EADA;
-  border-color: #584738;
-  transform: translateY(-2px);
+  color: #B59E7D;
+  transform: translateY(-3px);
 }
 
 .navbar-logo {
@@ -127,6 +125,21 @@
   font-weight: bold;
   box-shadow: 0 4px 12px rgba(88, 71, 56, 0.3);
   border: 3px solid #B59E7D;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logo-circle:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(88, 71, 56, 0.4);
+}
+
+.logo-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .navbar-center-right {
@@ -140,7 +153,7 @@
 
 .auth-button {
   background: none;
-  border: 2px solid #AAA396;
+  border: none;
   color: #584738;
   font-size: 1rem;
   font-weight: 500;
@@ -148,28 +161,22 @@
   padding: 0.75rem 1.5rem;
   border-radius: 25px;
   transition: all 0.3s ease;
-  background-color: rgba(241, 234, 218, 0.7);
+  position: relative;
 }
 
 .login-button:hover {
-  background-color: #B59E7D;
-  color: #F1EADA;
-  border-color: #584738;
-  transform: translateY(-2px);
+  color: #B59E7D;
+  transform: translateY(-3px);
 }
 
 .register-button:hover {
-  background-color: #584738;
-  color: #F1EADA;
-  border-color: #AAA396;
-  transform: translateY(-2px);
+  color: #B59E7D;
+  transform: translateY(-3px);
 }
 
 .logout-button:hover {
-  background-color: #AAA396;
-  color: #F1EADA;
-  border-color: #584738;
-  transform: translateY(-2px);
+  color: #AAA396;
+  transform: translateY(-3px);
 }
 
 .navbar-signature {
@@ -214,7 +221,7 @@
 
 .mobile-nav-link {
   background: none;
-  border: 2px solid #B59E7D;
+  border: none;
   color: #F1EADA;
   font-size: 1.2rem;
   font-weight: 500;
@@ -227,8 +234,8 @@
 }
 
 .mobile-nav-link:hover {
-  background-color: #B59E7D;
-  color: #584738;
+  color: #B59E7D;
+  transform: translateY(-3px);
 }
 
 .mobile-social-section {
@@ -268,7 +275,7 @@
 
 .mobile-auth-button {
   background: none;
-  border: 2px solid #AAA396;
+  border: none;
   color: #F1EADA;
   font-size: 1.1rem;
   font-weight: 500;
@@ -281,18 +288,106 @@
 }
 
 .mobile-auth-button.login-button:hover {
-  background-color: #B59E7D;
-  color: #584738;
+  color: #B59E7D;
+  transform: translateY(-3px);
 }
 
 .mobile-auth-button.register-button:hover {
+  color: #cec1ab;
+  transform: translateY(-3px);
+}
+
+.mobile-auth-button.logout-button:hover {
+  color: #AAA396;
+  transform: translateY(-3px);
+}
+
+.social-icon {
+  font-size: 1.2rem;
+  text-decoration: none;
+  color: #584738;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  background-color: rgba(241, 234, 218, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;  /* Increased size */
+  height: 45px; /* Increased size */
+  border: 2px solid #AAA396;
+}
+
+.social-icon-image {
+  width: 24px;  /* Set specific image size */
+  height: 24px; /* Set specific image size */
+  object-fit: contain;
+  border-radius: 4px; /* Slight rounding for square icons */
+}
+
+.social-icon:hover {
+  transform: scale(1.1);
+  background-color: #B59E7D;
+  border-color: #584738;
+}
+
+/* Mobile social icons */
+.mobile-social-icon {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #F1EADA;
+  text-decoration: none;
+  font-size: 1.1rem;
+  padding: 0.8rem 1.5rem;
+  border: 2px solid #cec1ab;
+  border-radius: 20px;
+  width: 180px;
+  transition: all 0.3s ease;
+}
+
+.mobile-social-icon-image {
+  width: 20px;  /* Smaller for mobile */
+  height: 20px; /* Smaller for mobile */
+  object-fit: contain;
+  border-radius: 3px;
+  flex-shrink: 0; /* Prevent image from shrinking */
+}
+
+.mobile-social-icon:hover {
   background-color: #cec1ab;
   color: #584738;
 }
 
-.mobile-auth-button.logout-button:hover {
-  background-color: #AAA396;
-  color: #584738;
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .social-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .social-icon-image {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .social-icon {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .social-icon-image {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .mobile-social-icon-image {
+    width: 18px;
+    height: 18px;
+  }
 }
 
 /* Responsive Design */

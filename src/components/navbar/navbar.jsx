@@ -55,14 +55,22 @@ export default function Navbar() {
     {
       name: "Instagram",
       url: "https://www.instagram.com/dominic.tillison?igsh=YXYwa2d5NHQ2azRp&utm_source=qr",
-      icon: "📷",
+      icon: "/pngtree-instagram-social-media-icon-png-image_6618438.png",
     },
-    { name: "Facebook", url: "https://facebook.com", icon: "📘" },
-    { name: "Twitter", url: "https://twitter.com", icon: "🐦" },
+    {
+      name: "Facebook",
+      url: "https://facebook.com",
+      icon: "/Facebook_Logo_(2019).png.webp",
+    },
+    {
+      name: "Twitter",
+      url: "https://twitter.com",
+      icon: "/x-twitter-black-isolated-logo-5694253.png",
+    },
     {
       name: "LinkedIn",
       url: "https://linkedin.com/dominic-tillison",
-      icon: "💼",
+      icon: "Linkedin-logo-blue-In-square-40px.png",
     },
   ];
 
@@ -95,7 +103,11 @@ export default function Navbar() {
               className="social-icon"
               title={social.name}
             >
-              {social.icon}
+              <img
+                src={social.icon}
+                alt={`${social.name} icon`}
+                className="social-icon-image"
+              />
             </a>
           ))}
         </div>
@@ -118,7 +130,13 @@ export default function Navbar() {
 
         {/* Dead Center - Logo */}
         <div className="navbar-logo">
-          <div className="logo-circle">LOGO</div>
+          <div className="logo-circle">
+            <img
+              src="https://i.imgur.com/fduJ8ba.png"
+              alt="tillison logo"
+              onClick={() => handleNavigation("/")}
+            />
+          </div>
         </div>
 
         {/* Center Right - Auth Buttons */}
@@ -182,7 +200,12 @@ export default function Navbar() {
                 className="mobile-social-icon"
                 title={social.name}
               >
-                {social.icon} {social.name}
+                <img
+                  src={social.icon}
+                  alt={`${social.name} icon`}
+                  className="mobile-social-icon-image"
+                />
+                <span>{social.name}</span>
               </a>
             ))}
           </div>
