@@ -18,6 +18,7 @@ export default function Login() {
 
   const Login = async (e) => {
     e.preventDefault();
+    console.log("Sending login payload:", { username, password });
     const res = await fetch(`/api/login`, {
       method: "POST",
       headers: {
@@ -31,6 +32,7 @@ export default function Login() {
     const data = await res.json();
 
     if (res.ok) {
+      localStorage.removeItem("token")
       localStorage.setItem("token", data.token);
       console.log("Login submitted");
       setToken(data.token)
@@ -42,7 +44,7 @@ export default function Login() {
     <>
       <form onSubmit={Login}>
         <div className="form-group">
-          <label for="exampleInputUsername1">Username</label>
+          <label htmlFor="exampleInputUsername1">Username</label>
           <input
             type="username"
             className="form-control"
@@ -57,7 +59,7 @@ export default function Login() {
           </small>
         </div>
         <div className="form-group">
-          <label for="exampleInputPassword1">Password</label>
+          <label htmlFor="exampleInputPassword1">Password</label>
           <input
             type="password"
             className="form-control"
@@ -68,11 +70,6 @@ export default function Login() {
           />
         </div>
         <div className="form-check">
-          <input
-            type="checkbox"
-            className="form-check-input"
-            id="exampleCheck1"
-          />
         </div>
         <button type="submit" className="btn btn-primary">
           Submit

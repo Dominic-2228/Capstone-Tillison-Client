@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation.js";
 import { useState } from "react";
+import { useAuth } from "../context/AuthContext.js";
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -9,7 +10,9 @@ export default function Register() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUserName] = useState("");
+  const [admin, setAdmin] = useState(false)
   const router = useRouter()
+  const {setToken} = useAuth()
 
     const handleNavigation = (path) => {
     router.push(path);
@@ -28,12 +31,14 @@ export default function Register() {
         first_name: firstName,
         last_name: lastName,
         username: username,
+        is_superuser: admin
       }),
     });
     const data = await res.json();
 
     if (res.ok) {
       localStorage.setItem("token", data.token);
+      setToken(data.token)
       handleNavigation("/")
     }
   };
@@ -105,8 +110,10 @@ export default function Register() {
             type="checkbox"
             className="form-check-input"
             id="exampleCheck1"
+            onChange={() => setAdmin((prev) => !prev)}
+            checked={admin}
           />
-          <label className="form-check-label" for="exampleCheck1">
+          <label className="form-check-label" htmlFor="exampleCheck1">
             Admin
           </label>
         </div>

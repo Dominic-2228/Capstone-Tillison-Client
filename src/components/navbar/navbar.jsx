@@ -70,7 +70,7 @@ export default function Navbar() {
     {
       name: "LinkedIn",
       url: "https://linkedin.com/dominic-tillison",
-      icon: "Linkedin-logo-blue-In-square-40px.png",
+      icon: "/linkedin-logo-linkedin-logo-transparent-linkedin-icon-transparent-free-free-png.webp",
     },
   ];
 

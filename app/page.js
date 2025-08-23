@@ -45,8 +45,8 @@ export default function Home() {
       {/* {make this a component} */}
 
       <div className="initial-view">
-        <img className="initial-photo" src="/DOM_6368.jpg" alt="Sample" />
-        <img src="logo" alt="logo" />
+        <img className="initial-photo" src="/DOM_6368.jpg" loading="lazy" alt="Sample" />
+        <img src="https://i.imgur.com/fduJ8ba.png" alt="logo" />
         <h3>Capturing</h3>
         <h3>the</h3>
         <h3>Moment</h3>
@@ -54,7 +54,7 @@ export default function Home() {
       <div className="about-us">
         <h2>About Us</h2>
         <div>
-          <img src="/DSC_4503.jpg" alt="our Photo" />
+          <img src="/DSC_4503.jpg" loading="lazy" alt="our Photo" />
         </div>
         <div className="paragraph-about-us">
           <h4>
@@ -73,13 +73,13 @@ export default function Home() {
 
       <div className="container">
         <div className="row">
-          <img className="image-samples" src="/DOM_6586.jpg" alt="Sample" />
-          <img className="image-samples" src="/DOM_6619.jpg" alt="Sample" />
-          <img className="image-samples" src="/DSC_0177.jpg" alt="Sample" />
-          <img className="image-samples" src="/DSC_0212.jpg" alt="Sample" />
-          <img className="image-samples" src="/DOM_6243.jpg" alt="Sample" />
-          <img className="image-samples" src="/DOM_6311.jpg" alt="Sample" />
-          <img className="image-samples" src="/DOM_6313.jpg" alt="Sample" />
+          <img className="image-samples" loading="lazy" src="/DOM_6586.jpg" alt="Sample" />
+          <img className="image-samples" loading="lazy" src="/DOM_6619.jpg" alt="Sample" />
+          <img className="image-samples" loading="lazy" src="/DSC_0177.jpg" alt="Sample" />
+          <img className="image-samples" loading="lazy" src="/DSC_0212.jpg" alt="Sample" />
+          <img className="image-samples" loading="lazy" src="/DOM_6243.jpg" alt="Sample" />
+          <img className="image-samples" loading="lazy" src="/DOM_6311.jpg" alt="Sample" />
+          <img className="image-samples" loading="lazy" src="/DOM_6313.jpg" alt="Sample" />
         </div>
       </div>
       <div>

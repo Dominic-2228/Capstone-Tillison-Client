@@ -56,7 +56,7 @@ export default function Packages() {
             </div>
             <ul>
               {photoPackageServices
-                .filter((ser) => ser.package.id === packages.id)
+                .filter((ser) => ser.package?.id === packages.id)
                 .map((ser) => (
                   <li key={ser.id} className="list-group-item">
                     {ser.service.description}
